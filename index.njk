@@ -1,0 +1,37 @@
+---
+layout: base
+title: Home
+---
+
+<div class="home-feed">
+  <h2>Recent Posts</h2>
+
+  {% if collections.allPosts.length > 0 %}
+  <div class="post-list">
+    {% for post in collections.allPosts | limit(10) %}
+    <article class="post-preview h-entry">
+      <div class="post-meta">
+        <time class="dt-published" datetime="{{ post.date | isoDate }}">
+          {{ post.date | readableDate }}
+        </time>
+        <span class="post-type">{{ post.data.layout }}</span>
+      </div>
+
+      {% if post.data.title %}
+      <h3 class="post-title p-name">
+        <a class="u-url" href="{{ post.url }}">{{ post.data.title }}</a>
+      </h3>
+      {% endif %}
+
+      <div class="post-excerpt e-content">
+        {{ post.templateContent | safe | truncate(280) }}
+      </div>
+
+      <a href="{{ post.url }}" class="read-more">Read more &rarr;</a>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p>No posts yet. Create your first post using GitHub Issues!</p>
+  {% endif %}
+</div>

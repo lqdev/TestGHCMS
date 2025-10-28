@@ -1,0 +1,85 @@
+# Site Configuration
+# This file controls features, post types, and theme options
+
+site:
+  title: "My GitHub CMS Blog"
+  description: "A blog powered by GitHub Issues and Eleventy"
+  url: "https://yourusername.github.io/yourrepo"
+  author:
+    name: "Your Name"
+    email: "your.email@example.com"
+    url: "https://yourusername.github.io/yourrepo"
+  language: "en"
+
+# Post Types Configuration
+# Enable or disable specific post types
+postTypes:
+  article:
+    enabled: true
+    permalink: "/articles/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}/"
+    layout: "article"
+  note:
+    enabled: true
+    permalink: "/notes/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}/"
+    layout: "note"
+  response:
+    enabled: false
+    permalink: "/responses/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}/"
+    layout: "response"
+  bookmark:
+    enabled: false
+    permalink: "/bookmarks/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}/"
+    layout: "bookmark"
+  media:
+    enabled: false
+    permalink: "/media/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}/"
+    layout: "media"
+  review:
+    enabled: false
+    permalink: "/reviews/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}/"
+    layout: "review"
+
+# Features Configuration
+features:
+  discussions:
+    enabled: true
+    autoCreate: true
+  webmentions:
+    enabled: true
+    send: true
+    receive: true
+    endpoint: "https://webmention.io/api/mentions.jf2"
+  microformats:
+    enabled: true
+  rss:
+    enabled: true
+  sitemap:
+    enabled: true
+
+# Theme Configuration
+theme:
+  style: "minimal"
+  colorScheme: "light"
+  accentColor: "#0969da"
+  font:
+    body: "system-ui, -apple-system, sans-serif"
+    heading: "system-ui, -apple-system, sans-serif"
+    mono: "ui-monospace, monospace"
+
+# Navigation
+navigation:
+  - title: "Home"
+    url: "/"
+  - title: "Articles"
+    url: "/articles/"
+  - title: "Notes"
+    url: "/notes/"
+  - title: "About"
+    url: "/about/"
+
+# Social Links
+social:
+  github: ""
+  mastodon: ""
+  bluesky: ""
+  twitter: ""

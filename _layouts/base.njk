@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="{{ siteConfig.site.language }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if title %}{{ title }} - {% endif %}{{ siteConfig.site.title }}</title>
+  <meta name="description" content="{{ description or siteConfig.site.description }}">
+
+  {# Microformats h-card for site author #}
+  <link rel="author" href="{{ siteConfig.site.author.url }}">
+
+  {# Webmention endpoint #}
+  {% if siteConfig.features.webmentions.enabled and siteConfig.features.webmentions.receive %}
+  <link rel="webmention" href="https://webmention.io/{{ siteConfig.site.url | replace('https://', '') | replace('http://', '') }}/webmention">
+  <link rel="pingback" href="https://webmention.io/{{ siteConfig.site.url | replace('https://', '') | replace('http://', '') }}/xmlrpc">
+  {% endif %}
+
+  {# RSS Feed #}
+  {% if siteConfig.features.rss.enabled %}
+  <link rel="alternate" type="application/rss+xml" title="{{ siteConfig.site.title }}" href="/feed.xml">
+  {% endif %}
+
+  <link rel="stylesheet" href="/styles/main.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title">
+        <a href="/" rel="home">{{ siteConfig.site.title }}</a>
+      </h1>
+      <nav class="site-nav">
+        <ul>
+          {% for item in siteConfig.navigation %}
+          <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main">
+    <div class="container">
+      {{ content | safe }}
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="h-card" hidden>
+        <a class="p-name u-url" href="{{ siteConfig.site.author.url }}" rel="me">{{ siteConfig.site.author.name }}</a>
+        <a class="u-email" href="mailto:{{ siteConfig.site.author.email }}">{{ siteConfig.site.author.email }}</a>
+      </div>
+
+      <p>&copy; {{ page.date.getFullYear() or "2025" }} {{ siteConfig.site.author.name }}</p>
+
+      {% if siteConfig.social.github or siteConfig.social.mastodon or siteConfig.social.bluesky %}
+      <div class="social-links">
+        {% if siteConfig.social.github %}
+        <a href="https://github.com/{{ siteConfig.social.github }}" rel="me">GitHub</a>
+        {% endif %}
+        {% if siteConfig.social.mastodon %}
+        <a href="{{ siteConfig.social.mastodon }}" rel="me">Mastodon</a>
+        {% endif %}
+        {% if siteConfig.social.bluesky %}
+        <a href="https://bsky.app/profile/{{ siteConfig.social.bluesky }}" rel="me">Bluesky</a>
+        {% endif %}
+      </div>
+      {% endif %}
+
+      <p><small>Powered by <a href="https://www.11ty.dev/">Eleventy</a> and GitHub</small></p>
+    </div>
+  </footer>
+</body>
+</html>

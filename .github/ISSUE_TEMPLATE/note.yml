@@ -1,0 +1,45 @@
+name: "Post Note"
+description: "Create a short-form note or status update"
+title: "[Note] "
+labels: ["note", "post"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Post a Note
+        Quick thoughts, status updates, or short posts.
+
+  - type: textarea
+    id: content
+    attributes:
+      label: "Content"
+      description: "Your note content (Markdown supported)"
+      placeholder: "What's on your mind?"
+    validations:
+      required: true
+
+  - type: input
+    id: title
+    attributes:
+      label: "Title (Optional)"
+      description: "Optional title for your note"
+      placeholder: "Quick Thought"
+
+  - type: input
+    id: tags
+    attributes:
+      label: "Tags"
+      description: "Comma-separated tags for your note"
+      placeholder: "thoughts, today"
+
+  - type: dropdown
+    id: published
+    attributes:
+      label: "Publish Immediately"
+      description: "Should this note be published right away?"
+      options:
+        - "yes"
+        - "no"
+      default: 0
+    validations:
+      required: true

@@ -1,0 +1,108 @@
+name: "Initial Site Setup"
+description: "Configure your site settings"
+title: "[Setup] Configure Site"
+labels: ["setup", "config"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Site Configuration
+        Fill out this form to set up your site's basic configuration.
+
+  - type: input
+    id: site_title
+    attributes:
+      label: "Site Title"
+      description: "The name of your blog/website"
+      placeholder: "My Awesome Blog"
+    validations:
+      required: true
+
+  - type: textarea
+    id: site_description
+    attributes:
+      label: "Site Description"
+      description: "A brief description of your site"
+      placeholder: "A blog about technology and life"
+    validations:
+      required: true
+
+  - type: input
+    id: site_url
+    attributes:
+      label: "Site URL"
+      description: "Your GitHub Pages URL (without trailing slash)"
+      placeholder: "https://username.github.io/repo-name"
+    validations:
+      required: true
+
+  - type: input
+    id: author_name
+    attributes:
+      label: "Author Name"
+      description: "Your name"
+      placeholder: "John Doe"
+    validations:
+      required: true
+
+  - type: input
+    id: author_email
+    attributes:
+      label: "Author Email"
+      description: "Your email address"
+      placeholder: "john@example.com"
+    validations:
+      required: true
+
+  - type: input
+    id: github_username
+    attributes:
+      label: "GitHub Username"
+      description: "Your GitHub username"
+      placeholder: "johndoe"
+
+  - type: input
+    id: mastodon_url
+    attributes:
+      label: "Mastodon Profile URL"
+      description: "Your Mastodon profile URL (optional)"
+      placeholder: "https://mastodon.social/@username"
+
+  - type: input
+    id: bluesky_handle
+    attributes:
+      label: "Bluesky Handle"
+      description: "Your Bluesky handle (optional)"
+      placeholder: "username.bsky.social"
+
+  - type: checkboxes
+    id: features
+    attributes:
+      label: "Enable Features"
+      description: "Select which features you want to enable"
+      options:
+        - label: "GitHub Discussions for comments"
+          required: false
+        - label: "Webmentions"
+          required: false
+        - label: "RSS Feed"
+          required: false
+
+  - type: checkboxes
+    id: post_types
+    attributes:
+      label: "Enable Post Types"
+      description: "Select which post types you want to use"
+      options:
+        - label: "Articles"
+          required: false
+        - label: "Notes"
+          required: false
+        - label: "Responses (replies, reposts, likes)"
+          required: false
+        - label: "Bookmarks"
+          required: false
+        - label: "Media posts"
+          required: false
+        - label: "Reviews"
+          required: false

@@ -1,0 +1,29 @@
+---
+layout: base
+title: Notes
+permalink: /notes/
+---
+
+<div class="notes-page">
+  <h2>Notes</h2>
+
+  {% if collections.notes.length > 0 %}
+  <div class="post-list notes-list">
+    {% for post in collections.notes %}
+    <article class="post-preview post-note h-entry">
+      <time class="dt-published" datetime="{{ post.date | isoDate }}">
+        {{ post.date | readableDate }}
+      </time>
+
+      <div class="e-content">
+        {{ post.templateContent | safe }}
+      </div>
+
+      <a class="u-url permalink" href="{{ post.url }}">#</a>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p>No notes yet.</p>
+  {% endif %}
+</div>

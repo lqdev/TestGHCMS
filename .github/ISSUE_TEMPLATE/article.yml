@@ -1,0 +1,68 @@
+name: "Publish Article"
+description: "Create a new long-form blog post"
+title: "[Article] "
+labels: ["article", "post"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Create a New Article
+        Fill out this form to publish a long-form blog post.
+
+  - type: input
+    id: title
+    attributes:
+      label: "Title"
+      description: "The title of your article"
+      placeholder: "My Awesome Blog Post"
+    validations:
+      required: true
+
+  - type: textarea
+    id: content
+    attributes:
+      label: "Content"
+      description: "The main content of your article (Markdown supported)"
+      placeholder: "Write your article content here..."
+    validations:
+      required: true
+
+  - type: input
+    id: description
+    attributes:
+      label: "Description"
+      description: "A brief description for SEO and social media (optional)"
+      placeholder: "A short summary of your article"
+
+  - type: input
+    id: tags
+    attributes:
+      label: "Tags"
+      description: "Comma-separated tags for your article"
+      placeholder: "technology, tutorial, javascript"
+
+  - type: input
+    id: author
+    attributes:
+      label: "Author"
+      description: "Author name (defaults to site author if left blank)"
+      placeholder: "Your Name"
+
+  - type: input
+    id: canonical_url
+    attributes:
+      label: "Canonical URL"
+      description: "If this article was originally published elsewhere, provide the URL"
+      placeholder: "https://example.com/original-post"
+
+  - type: dropdown
+    id: published
+    attributes:
+      label: "Publish Immediately"
+      description: "Should this article be published right away?"
+      options:
+        - "yes"
+        - "no"
+      default: 0
+    validations:
+      required: true

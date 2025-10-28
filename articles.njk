@@ -1,0 +1,39 @@
+---
+layout: base
+title: Articles
+permalink: /articles/
+---
+
+<div class="articles-page">
+  <h2>Articles</h2>
+
+  {% if collections.articles.length > 0 %}
+  <div class="post-list">
+    {% for post in collections.articles %}
+    <article class="post-preview h-entry">
+      <time class="dt-published" datetime="{{ post.date | isoDate }}">
+        {{ post.date | readableDate }}
+      </time>
+
+      <h3 class="post-title p-name">
+        <a class="u-url" href="{{ post.url }}">{{ post.data.title }}</a>
+      </h3>
+
+      {% if post.data.description %}
+      <p class="post-description">{{ post.data.description }}</p>
+      {% endif %}
+
+      {% if post.data.tags %}
+      <div class="post-tags">
+        {% for tag in post.data.tags %}
+        <span class="p-category tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p>No articles yet.</p>
+  {% endif %}
+</div>

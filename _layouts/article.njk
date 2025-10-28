@@ -1,0 +1,53 @@
+---
+layout: base
+---
+
+<article class="h-entry post post-article">
+  <header class="post-header">
+    <h1 class="p-name post-title">{{ title }}</h1>
+
+    <div class="post-meta">
+      <time class="dt-published" datetime="{{ page.date | isoDate }}">
+        {{ page.date | readableDate }}
+      </time>
+      {% if author %}
+      <span class="post-author">
+        by <span class="p-author h-card">{{ author }}</span>
+      </span>
+      {% endif %}
+      {% if tags %}
+      <div class="post-tags">
+        {% for tag in tags %}
+        <a href="/tags/{{ tag | slugify }}/" class="p-category">{{ tag }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="e-content post-content">
+    {{ content | safe }}
+  </div>
+
+  {% if discussionUrl %}
+  <footer class="post-footer">
+    <div class="post-discussion">
+      <h3>Comments</h3>
+      <p>Join the discussion on <a href="{{ discussionUrl }}">GitHub Discussions</a>.</p>
+    </div>
+  </footer>
+  {% endif %}
+
+  {# Hidden microformats data #}
+  <a class="u-url" href="{{ page.url }}" hidden></a>
+  <a class="u-uid" href="{{ siteConfig.site.url }}{{ page.url }}" hidden></a>
+</article>
+
+{% if siteConfig.features.webmentions.enabled and siteConfig.features.webmentions.receive %}
+<section class="webmentions">
+  <h3>Webmentions</h3>
+  <div id="webmentions-container">
+    <p><em>Loading webmentions...</em></p>
+  </div>
+</section>
+{% endif %}
