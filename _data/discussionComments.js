@@ -80,32 +80,7 @@ module.exports = async function() {
       return {};
     }
 
-    // Transform data into a map of discussion number -> comments
-    const commentsMap = {};
-    
-    data.repository.discussions.nodes.forEach(discussion => {
-      commentsMap[discussion.number] = {
-        title: discussion.title,
-        url: discussion.url,
-        comments: discussion.comments.nodes.map(comment => ({
-          id: comment.id,
-          body: comment.body,
-          bodyHTML: comment.bodyHTML,
-          createdAt: comment.createdAt,
-          updatedAt: comment.updatedAt,
-          author: comment.author,
-          replies: comment.replies.nodes.map(reply => ({
-            id: reply.id,
-            body: reply.body,
-            bodyHTML: reply.bodyHTML,
-            createdAt: reply.createdAt,
-            updatedAt: reply.updatedAt,
-            author: reply.author
-          }))
-        }))
-      };
-    });
-
+    const commentsMap = transformDiscussions(data.repository.discussions.nodes);
     console.log(`Successfully fetched ${Object.keys(commentsMap).length} discussions`);
     return commentsMap;
   } catch (error) {
@@ -114,6 +89,38 @@ module.exports = async function() {
     return {};
   }
 };
+
+/**
+ * Transform GitHub API discussion data into a comments map
+ */
+function transformDiscussions(discussions) {
+  const commentsMap = {};
+  
+  discussions.forEach(discussion => {
+    commentsMap[discussion.number] = {
+      title: discussion.title,
+      url: discussion.url,
+      comments: discussion.comments.nodes.map(comment => ({
+        id: comment.id,
+        body: comment.body,
+        bodyHTML: comment.bodyHTML,
+        createdAt: comment.createdAt,
+        updatedAt: comment.updatedAt,
+        author: comment.author,
+        replies: comment.replies.nodes.map(reply => ({
+          id: reply.id,
+          body: reply.body,
+          bodyHTML: reply.bodyHTML,
+          createdAt: reply.createdAt,
+          updatedAt: reply.updatedAt,
+          author: reply.author
+        }))
+      }))
+    };
+  });
+  
+  return commentsMap;
+}
 
 /**
  * Try to fetch using gh CLI which may have credentials
@@ -175,32 +182,7 @@ async function fetchViaGhCli(owner, repo) {
       return null;
     }
     
-    // Transform data into a map
-    const commentsMap = {};
-    parsed.data.repository.discussions.nodes.forEach(discussion => {
-      commentsMap[discussion.number] = {
-        title: discussion.title,
-        url: discussion.url,
-        comments: discussion.comments.nodes.map(comment => ({
-          id: comment.id,
-          body: comment.body,
-          bodyHTML: comment.bodyHTML,
-          createdAt: comment.createdAt,
-          updatedAt: comment.updatedAt,
-          author: comment.author,
-          replies: comment.replies.nodes.map(reply => ({
-            id: reply.id,
-            body: reply.body,
-            bodyHTML: reply.bodyHTML,
-            createdAt: reply.createdAt,
-            updatedAt: reply.updatedAt,
-            author: reply.author
-          }))
-        }))
-      };
-    });
-    
-    return commentsMap;
+    return transformDiscussions(parsed.data.repository.discussions.nodes);
   } catch (error) {
     // gh CLI not available or not authenticated
     return null;
