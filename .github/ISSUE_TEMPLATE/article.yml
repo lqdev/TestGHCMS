@@ -10,9 +10,9 @@ body:
         Fill out this form to publish a long-form blog post.
 
   - type: input
-    id: title
+    id: post_title
     attributes:
-      label: "Title"
+      label: "Post Title"
       description: "The title of your article"
       placeholder: "My Awesome Blog Post"
     validations:
