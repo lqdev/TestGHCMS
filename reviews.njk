@@ -1,0 +1,55 @@
+---
+layout: base
+title: Reviews
+permalink: /reviews/
+---
+
+<div class="reviews-page">
+  <h2>Reviews</h2>
+
+  {% if collections.reviews.length > 0 %}
+  <div class="post-list">
+    {% for post in collections.reviews %}
+    <article class="post-preview h-entry">
+      <time class="dt-published" datetime="{{ post.date | isoDate }}">
+        {{ post.date | readableDate }}
+      </time>
+
+      <h3 class="post-title p-name">
+        <a class="u-url" href="{{ post.url | url }}">{{ post.data.title }}</a>
+      </h3>
+
+      {% if post.data.reviewItem %}
+      <p class="post-review-item">
+        <strong>{{ post.data.reviewItem }}</strong>
+      </p>
+      {% endif %}
+
+      {% if post.data.rating %}
+      <div class="post-rating">
+        <span class="p-rating" aria-label="{{ post.data.rating }} out of 5 stars">
+          {% for i in range(1, 6) %}
+            {% if i <= post.data.rating %}★{% else %}☆{% endif %}
+          {% endfor %}
+        </span>
+      </div>
+      {% endif %}
+
+      <div class="post-excerpt">
+        {{ post.templateContent | striptags | truncate(200) }}
+      </div>
+
+      {% if post.data.tags %}
+      <div class="post-tags">
+        {% for tag in post.data.tags %}
+        <span class="p-category tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p>No reviews yet.</p>
+  {% endif %}
+</div>

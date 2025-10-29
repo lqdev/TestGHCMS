@@ -117,6 +117,30 @@ module.exports = function(eleventyConfig) {
     });
   }
 
+  if (siteConfig.postTypes.response?.enabled) {
+    eleventyConfig.addCollection('responses', function(collectionApi) {
+      return collectionApi.getFilteredByGlob('./_responses/*.md').sort((a, b) => b.date - a.date);
+    });
+  }
+
+  if (siteConfig.postTypes.bookmark?.enabled) {
+    eleventyConfig.addCollection('bookmarks', function(collectionApi) {
+      return collectionApi.getFilteredByGlob('./_bookmarks/*.md').sort((a, b) => b.date - a.date);
+    });
+  }
+
+  if (siteConfig.postTypes.media?.enabled) {
+    eleventyConfig.addCollection('media', function(collectionApi) {
+      return collectionApi.getFilteredByGlob('./_media/*.md').sort((a, b) => b.date - a.date);
+    });
+  }
+
+  if (siteConfig.postTypes.review?.enabled) {
+    eleventyConfig.addCollection('reviews', function(collectionApi) {
+      return collectionApi.getFilteredByGlob('./_reviews/*.md').sort((a, b) => b.date - a.date);
+    });
+  }
+
   // Pass through static assets
   eleventyConfig.addPassthroughCopy('styles');
   eleventyConfig.addPassthroughCopy('assets');

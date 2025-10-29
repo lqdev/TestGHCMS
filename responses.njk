@@ -1,0 +1,47 @@
+---
+layout: base
+title: Responses
+permalink: /responses/
+---
+
+<div class="responses-page">
+  <h2>Responses</h2>
+
+  {% if collections.responses.length > 0 %}
+  <div class="post-list">
+    {% for post in collections.responses %}
+    <article class="post-preview h-entry">
+      <time class="dt-published" datetime="{{ post.date | isoDate }}">
+        {{ post.date | readableDate }}
+      </time>
+
+      {% if post.data.title %}
+      <h3 class="post-title p-name">
+        <a class="u-url" href="{{ post.url | url }}">{{ post.data.title }}</a>
+      </h3>
+      {% endif %}
+
+      {% if post.data.inReplyTo %}
+      <p class="post-reply-context">
+        in reply to <a href="{{ post.data.inReplyTo }}">{{ post.data.inReplyTo }}</a>
+      </p>
+      {% endif %}
+
+      <div class="post-excerpt">
+        {{ post.templateContent | striptags | truncate(200) }}
+      </div>
+
+      {% if post.data.tags %}
+      <div class="post-tags">
+        {% for tag in post.data.tags %}
+        <span class="p-category tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p>No responses yet.</p>
+  {% endif %}
+</div>
