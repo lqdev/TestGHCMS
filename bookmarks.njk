@@ -1,0 +1,47 @@
+---
+layout: base
+title: Bookmarks
+permalink: /bookmarks/
+---
+
+<div class="bookmarks-page">
+  <h2>Bookmarks</h2>
+
+  {% if collections.bookmarks.length > 0 %}
+  <div class="post-list">
+    {% for post in collections.bookmarks %}
+    <article class="post-preview h-entry">
+      <time class="dt-published" datetime="{{ post.date | isoDate }}">
+        {{ post.date | readableDate }}
+      </time>
+
+      <h3 class="post-title p-name">
+        <a class="u-url" href="{{ post.url | url }}">{{ post.data.title }}</a>
+      </h3>
+
+      {% if post.data.bookmarkOf %}
+      <p class="post-bookmark-url">
+        🔖 <a href="{{ post.data.bookmarkOf }}" rel="external">{{ post.data.bookmarkOf }}</a>
+      </p>
+      {% endif %}
+
+      {% if post.templateContent %}
+      <div class="post-excerpt">
+        {{ post.templateContent | striptags | truncate(200) }}
+      </div>
+      {% endif %}
+
+      {% if post.data.tags %}
+      <div class="post-tags">
+        {% for tag in post.data.tags %}
+        <span class="p-category tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p>No bookmarks yet.</p>
+  {% endif %}
+</div>

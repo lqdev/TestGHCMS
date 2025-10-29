@@ -17,19 +17,19 @@ postTypes:
     permalink: '/notes/{{ page.date | date: ''%Y/%m/%d'' }}/{{ page.fileSlug }}/'
     layout: note
   response:
-    enabled: false
+    enabled: true
     permalink: '/responses/{{ page.date | date: ''%Y/%m/%d'' }}/{{ page.fileSlug }}/'
     layout: response
   bookmark:
-    enabled: false
+    enabled: true
     permalink: '/bookmarks/{{ page.date | date: ''%Y/%m/%d'' }}/{{ page.fileSlug }}/'
     layout: bookmark
   media:
-    enabled: false
+    enabled: true
     permalink: '/media/{{ page.date | date: ''%Y/%m/%d'' }}/{{ page.fileSlug }}/'
     layout: media
   review:
-    enabled: false
+    enabled: true
     permalink: '/reviews/{{ page.date | date: ''%Y/%m/%d'' }}/{{ page.fileSlug }}/'
     layout: review
 features:
@@ -62,6 +62,14 @@ navigation:
     url: /articles/
   - title: Notes
     url: /notes/
+  - title: Responses
+    url: /responses/
+  - title: Bookmarks
+    url: /bookmarks/
+  - title: Media
+    url: /media/
+  - title: Reviews
+    url: /reviews/
   - title: About
     url: /about/
 social:
