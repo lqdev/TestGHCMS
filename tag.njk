@@ -17,7 +17,7 @@ eleventyComputed:
     {% if post.data.tags %}
       {% if post.data.tags is string and post.data.tags == tag %}
         {% set _ = taggedPosts.push(post) %}
-      {% elif post.data.tags is iterable and tag in post.data.tags %}
+      {% elif post.data.tags is not string and tag in post.data.tags %}
         {% set _ = taggedPosts.push(post) %}
       {% endif %}
     {% endif %}
@@ -43,9 +43,13 @@ eleventyComputed:
 
       {% if post.data.tags %}
       <div class="post-tags">
+        {% if post.data.tags is string %}
+        <a href="{{ ('/tags/' + (post.data.tags | slugify) + '/') | url }}" class="p-category tag">{{ post.data.tags }}</a>
+        {% else %}
         {% for postTag in post.data.tags %}
         <a href="{{ ('/tags/' + (postTag | slugify) + '/') | url }}" class="p-category tag">{{ postTag }}</a>
         {% endfor %}
+        {% endif %}
       </div>
       {% endif %}
     </article>
