@@ -7,7 +7,7 @@ layout: base
     <time class="dt-published" datetime="{{ page.date | isoDate }}">
       {{ page.date | readableDate }}
     </time>
-    <a class="u-url permalink" href="{{ page.url }}">#</a>
+    <a class="u-url permalink" href="{{ page.url | url }}">#</a>
   </div>
 
   <div class="e-content post-content">
@@ -20,7 +20,7 @@ layout: base
   {% if tags %}
   <div class="post-tags">
     {% for tag in tags %}
-    <a href="/tags/{{ tag | slugify }}/" class="p-category">{{ tag }}</a>
+    <a href="{{ ('/tags/' + (tag | slugify) + '/') | url }}" class="p-category">{{ tag }}</a>
     {% endfor %}
   </div>
   {% endif %}

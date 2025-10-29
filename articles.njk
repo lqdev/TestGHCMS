@@ -16,7 +16,7 @@ permalink: /articles/
       </time>
 
       <h3 class="post-title p-name">
-        <a class="u-url" href="{{ post.url }}">{{ post.data.title }}</a>
+        <a class="u-url" href="{{ post.url | url }}">{{ post.data.title }}</a>
       </h3>
 
       {% if post.data.description %}

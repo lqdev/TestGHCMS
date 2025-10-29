@@ -18,7 +18,7 @@ layout: base
       {% if tags %}
       <div class="post-tags">
         {% for tag in tags %}
-        <a href="/tags/{{ tag | slugify }}/" class="p-category">{{ tag }}</a>
+        <a href="{{ ('/tags/' + (tag | slugify) + '/') | url }}" class="p-category">{{ tag }}</a>
         {% endfor %}
       </div>
       {% endif %}
@@ -39,7 +39,7 @@ layout: base
   {% endif %}
 
   {# Hidden microformats data #}
-  <a class="u-url" href="{{ page.url }}" hidden></a>
+  <a class="u-url" href="{{ page.url | url }}" hidden></a>
   <a class="u-uid" href="{{ siteConfig.site.url }}{{ page.url }}" hidden></a>
 </article>
 
