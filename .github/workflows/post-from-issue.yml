@@ -20,6 +20,7 @@ jobs:
       contents: write
       issues: write
       pull-requests: write
+      discussions: write
 
     steps:
       - name: Checkout repository
@@ -95,6 +96,108 @@ jobs:
             core.setOutput('filename', filename);
             core.setOutput('date', date);
 
+      - name: Load site configuration
+        id: load-config
+        run: |
+          # Install js-yaml to parse the config
+          npm install js-yaml
+          
+          # Parse site.config.yml and extract discussions settings
+          DISCUSSIONS_ENABLED=$(node -e "const yaml = require('js-yaml'); const fs = require('fs'); const config = yaml.load(fs.readFileSync('./site.config.yml', 'utf8')); console.log(config.features.discussions.enabled || false);")
+          DISCUSSIONS_AUTO_CREATE=$(node -e "const yaml = require('js-yaml'); const fs = require('fs'); const config = yaml.load(fs.readFileSync('./site.config.yml', 'utf8')); console.log(config.features.discussions.autoCreate || false);")
+          
+          echo "discussions_enabled=${DISCUSSIONS_ENABLED}" >> $GITHUB_OUTPUT
+          echo "discussions_auto_create=${DISCUSSIONS_AUTO_CREATE}" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Discussion
+        if: steps.load-config.outputs.discussions_enabled == 'true' && steps.load-config.outputs.discussions_auto_create == 'true'
+        id: create-discussion
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = context.payload.issue;
+            const postType = '${{ steps.parse-issue.outputs.postType }}';
+            const fields = JSON.parse('${{ steps.parse-issue.outputs.fields }}');
+            const postTitle = fields.title || fields.post_title || issue.title.replace(/^\[.*\] /, '');
+            
+            // Get the repository's discussion categories
+            const query = `
+              query($owner: String!, $repo: String!) {
+                repository(owner: $owner, name: $repo) {
+                  discussionCategories(first: 10) {
+                    nodes {
+                      id
+                      name
+                    }
+                  }
+                }
+              }
+            `;
+            
+            const result = await github.graphql(query, {
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            
+            // Find the "General" category or use the first available
+            const categories = result.repository.discussionCategories.nodes;
+            const generalCategory = categories.find(cat => cat.name === 'General') || categories[0];
+            
+            if (!generalCategory) {
+              console.log('No discussion categories found. Skipping discussion creation.');
+              return;
+            }
+            
+            // Create the discussion
+            const mutation = `
+              mutation($repositoryId: ID!, $categoryId: ID!, $title: String!, $body: String!) {
+                createDiscussion(input: {
+                  repositoryId: $repositoryId,
+                  categoryId: $categoryId,
+                  title: $title,
+                  body: $body
+                }) {
+                  discussion {
+                    id
+                    url
+                  }
+                }
+              }
+            `;
+            
+            // Get repository ID
+            const repoQuery = `
+              query($owner: String!, $repo: String!) {
+                repository(owner: $owner, name: $repo) {
+                  id
+                }
+              }
+            `;
+            
+            const repoResult = await github.graphql(repoQuery, {
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            
+            const discussionTitle = `💬 ${postTitle}`;
+            const discussionBody = `This discussion is for comments on the ${postType}: **${postTitle}**\n\nCreated from issue #${issue.number}`;
+            
+            try {
+              const createResult = await github.graphql(mutation, {
+                repositoryId: repoResult.repository.id,
+                categoryId: generalCategory.id,
+                title: discussionTitle,
+                body: discussionBody
+              });
+              
+              const discussionUrl = createResult.createDiscussion.discussion.url;
+              console.log(`Created discussion: ${discussionUrl}`);
+              core.setOutput('discussion_url', discussionUrl);
+            } catch (error) {
+              console.error('Error creating discussion:', error);
+              console.log('Continuing without discussion URL');
+            }
+
       - name: Create post file
         env:
           POST_TYPE: ${{ steps.parse-issue.outputs.postType }}
@@ -103,6 +206,7 @@ jobs:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           ISSUE_TITLE: ${{ github.event.issue.title }}
           DATE: ${{ steps.parse-issue.outputs.date }}
+          DISCUSSION_URL: ${{ steps.create-discussion.outputs.discussion_url }}
         run: |
           # Parse fields
           TITLE=$(echo "$FIELDS" | jq -r '.post_title // .title // ""')
@@ -145,6 +249,9 @@ jobs:
 
           # Add issue reference
           echo "issue: $ISSUE_NUMBER" >> "_${POST_TYPE}s/$FILENAME"
+
+          # Add discussion URL if available
+          [ -n "$DISCUSSION_URL" ] && echo "discussionUrl: \"$DISCUSSION_URL\"" >> "_${POST_TYPE}s/$FILENAME"
 
           # Close frontmatter
           echo "---" >> "_${POST_TYPE}s/$FILENAME"
