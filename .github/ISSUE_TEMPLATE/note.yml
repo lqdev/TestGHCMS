@@ -19,9 +19,9 @@ body:
       required: true
 
   - type: input
-    id: title
+    id: post_title
     attributes:
-      label: "Title (Optional)"
+      label: "Post Title"
       description: "Optional title for your note"
       placeholder: "Quick Thought"
 
