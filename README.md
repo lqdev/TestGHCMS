@@ -7,7 +7,7 @@ A GitHub-native, AI-assisted blog platform powered by Eleventy. Publish content 
 - **Issue-Driven Publishing**: Create posts by opening GitHub Issues - no code required
 - **Multiple Post Types**: Articles, notes, responses, bookmarks, media posts, and reviews
 - **IndieWeb Support**: Built-in Microformats2 and Webmentions
-- **GitHub Discussions**: Automatic comment threads for each post
+- **GitHub Discussions Comments**: Display discussion comments directly on your posts (see [DISCUSSIONS.md](DISCUSSIONS.md))
 - **AI Customization**: Request site customizations via GitHub Copilot
 - **Static Site Generation**: Fast, secure, and SEO-friendly with Eleventy
 - **GitHub Pages Deployment**: Automatic deployment on every commit
