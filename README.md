@@ -24,7 +24,16 @@ Click "Use this template" to create your own repository.
 2. Under "Build and deployment":
    - Source: **GitHub Actions**
 
-### 3. Configure Your Site
+### 3. Set Up Repository Labels
+
+Labels are required for the post creation workflow. Run the label sync workflow:
+
+1. Go to **Actions** > **Setup Repository Labels**
+2. Click **"Run workflow"** > **"Run workflow"**
+
+This will create all necessary labels (post, article, note, etc.) from `.github/labels.yml`.
+
+### 4. Configure Your Site
 
 1. Open a new issue using the **"Initial Site Setup"** template
 2. Fill in your site details (title, description, URL, etc.)
@@ -42,7 +51,7 @@ site:
     email: "your.email@example.com"
 ```
 
-### 4. Create Your First Post
+### 5. Create Your First Post
 
 #### Creating an Article
 
@@ -274,6 +283,19 @@ features:
 
 ## Troubleshooting
 
+### Workflow Not Triggering When Creating Post
+
+**Problem**: Creating an issue from a post template doesn't trigger the workflow.
+
+**Solution**: The required labels may not exist in your repository. GitHub issue forms can only apply labels that already exist.
+
+1. Go to **Actions** > **Setup Repository Labels**
+2. Click **"Run workflow"** > **"Run workflow"**
+3. Wait for completion, then try creating a new post issue
+
+Alternatively, manually create the labels:
+- `post`, `article`, `note`, `response`, `bookmark`, `media`, `review`
+
 ### Posts Not Appearing
 
 - Check that the PR was merged to `main`
@@ -288,7 +310,7 @@ features:
 
 ### Issue Template Not Creating Post
 
-- Ensure issue has the `post` label
+- Ensure issue has the `post` label (or the workflow will use title prefix as fallback)
 - Check the workflow run logs
 - Verify the issue body matches the expected format
 
