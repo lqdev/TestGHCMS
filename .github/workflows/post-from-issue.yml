@@ -109,31 +109,21 @@ jobs:
         id: load-config
         run: |
           # Parse site.config.yml and extract discussions settings with error handling
-          DISCUSSIONS_ENABLED=$(node -e "
+          node -e "
             try {
               const yaml = require('js-yaml');
               const fs = require('fs');
               const config = yaml.load(fs.readFileSync('./site.config.yml', 'utf8'));
-              console.log((config?.features?.discussions?.enabled) || false);
+              const enabled = (config?.features?.discussions?.enabled) || false;
+              const autoCreate = (config?.features?.discussions?.autoCreate) || false;
+              console.log(\`discussions_enabled=\${enabled}\`);
+              console.log(\`discussions_auto_create=\${autoCreate}\`);
             } catch (error) {
               console.error('Error reading config:', error.message);
-              console.log(false);
+              console.log('discussions_enabled=false');
+              console.log('discussions_auto_create=false');
             }
-          ")
-          DISCUSSIONS_AUTO_CREATE=$(node -e "
-            try {
-              const yaml = require('js-yaml');
-              const fs = require('fs');
-              const config = yaml.load(fs.readFileSync('./site.config.yml', 'utf8'));
-              console.log((config?.features?.discussions?.autoCreate) || false);
-            } catch (error) {
-              console.error('Error reading config:', error.message);
-              console.log(false);
-            }
-          ")
-          
-          echo "discussions_enabled=${DISCUSSIONS_ENABLED}" >> $GITHUB_OUTPUT
-          echo "discussions_auto_create=${DISCUSSIONS_AUTO_CREATE}" >> $GITHUB_OUTPUT
+          " >> $GITHUB_OUTPUT
 
       - name: Create GitHub Discussion
         if: steps.load-config.outputs.discussions_enabled == 'true' && steps.load-config.outputs.discussions_auto_create == 'true'
@@ -220,11 +210,11 @@ jobs:
               console.log(`Created discussion: ${discussionUrl}`);
               core.setOutput('discussion_url', discussionUrl);
             } catch (error) {
-              console.error('Error creating discussion:', error.message);
+              console.error(`Error creating discussion for post "${postTitle}" (issue #${issue.number}):`, error.message);
               if (error.errors) {
                 console.error('GraphQL errors:', JSON.stringify(error.errors, null, 2));
               }
-              console.log('Continuing without discussion URL - post will be created without discussion link');
+              console.log(`Post will be created without discussion link - you can manually create a discussion and add it to the post later`);
             }
 
       - name: Create post file
