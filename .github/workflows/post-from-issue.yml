@@ -155,11 +155,13 @@ jobs:
               repo: context.repo.repo
             });
             
-            // Find the "General" category or use the first available
+            // Find the "Comments" category, fallback to "General", or use the first available
             const categories = result.repository.discussionCategories.nodes;
-            const generalCategory = categories.find(cat => cat.name === 'General') || categories[0];
+            const category = categories.find(cat => cat.name === 'Comments') 
+              || categories.find(cat => cat.name === 'General') 
+              || categories[0];
             
-            if (!generalCategory) {
+            if (!category) {
               console.log('No discussion categories found. Skipping discussion creation.');
               return;
             }
@@ -201,7 +203,7 @@ jobs:
             try {
               const createResult = await github.graphql(mutation, {
                 repositoryId: repoResult.repository.id,
-                categoryId: generalCategory.id,
+                categoryId: category.id,
                 title: discussionTitle,
                 body: discussionBody
               });
