@@ -27,6 +27,3 @@ Thumbs.db
 # Cache
 .cache/
 .eleventy-cache/
-
-# Workflows (must be added manually - see WORKFLOWS.md)
-.github/workflows/
