@@ -95,11 +95,25 @@ jobs:
 
             // Generate filename
             const date = new Date().toISOString().split('T')[0];
-            const slug = (fields.title || issue.title)
-              .toLowerCase()
-              .replace(/[^a-z0-9]+/g, '-')
-              .replace(/^-|-$/g, '')
-              .substring(0, 50);
+            
+            // Use custom slug if provided, otherwise generate from title
+            let slug;
+            if (fields.slug) {
+              // Sanitize custom slug
+              slug = fields.slug
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-|-$/g, '')
+                .substring(0, 50);
+            } else {
+              // Generate slug from title
+              slug = (fields.post_title || fields.title || issue.title)
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-|-$/g, '')
+                .substring(0, 50);
+            }
+            
             const filename = `${date}-${slug}.md`;
 
             core.setOutput('filename', filename);
@@ -134,7 +148,7 @@ jobs:
             const issue = context.payload.issue;
             const postType = '${{ steps.parse-issue.outputs.postType }}';
             const fields = JSON.parse('${{ steps.parse-issue.outputs.fields }}');
-            const postTitle = fields.title || fields.post_title || issue.title.replace(/^\[.*\] /, '');
+            const postTitle = fields.post_title || fields.title || issue.title.replace(/^\[.*\] /, '');
             
             // Get the repository's discussion categories
             const query = `

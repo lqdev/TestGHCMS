@@ -1,0 +1,78 @@
+name: "Post Review"
+description: "Write a review of a book, movie, product, etc."
+title: "[Review] "
+labels: ["review", "post"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Post a Review
+        Review a book, movie, product, or anything else.
+
+  - type: input
+    id: post_title
+    attributes:
+      label: "Post Title"
+      description: "Title for your review"
+      placeholder: "Review: The Great Gatsby"
+    validations:
+      required: true
+
+  - type: input
+    id: slug
+    attributes:
+      label: "Custom Slug"
+      description: "Optional URL-friendly slug for this post (if empty, will be generated from title)"
+      placeholder: "my-custom-slug"
+
+  - type: input
+    id: review_item
+    attributes:
+      label: "Item Being Reviewed"
+      description: "What are you reviewing?"
+      placeholder: "The Great Gatsby by F. Scott Fitzgerald"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: rating
+    attributes:
+      label: "Rating"
+      description: "Your rating (out of 5)"
+      options:
+        - "5"
+        - "4"
+        - "3"
+        - "2"
+        - "1"
+      default: 0
+    validations:
+      required: true
+
+  - type: textarea
+    id: content
+    attributes:
+      label: "Review"
+      description: "Your review content (Markdown supported)"
+      placeholder: "Write your review here..."
+    validations:
+      required: true
+
+  - type: input
+    id: tags
+    attributes:
+      label: "Tags"
+      description: "Comma-separated tags for your review"
+      placeholder: "books, fiction, classics"
+
+  - type: dropdown
+    id: published
+    attributes:
+      label: "Publish Immediately"
+      description: "Should this review be published right away?"
+      options:
+        - "yes"
+        - "no"
+      default: 0
+    validations:
+      required: true

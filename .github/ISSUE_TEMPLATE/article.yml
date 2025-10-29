@@ -18,6 +18,13 @@ body:
     validations:
       required: true
 
+  - type: input
+    id: slug
+    attributes:
+      label: "Custom Slug"
+      description: "Optional URL-friendly slug for this post (if empty, will be generated from title)"
+      placeholder: "my-custom-slug"
+
   - type: textarea
     id: content
     attributes:
