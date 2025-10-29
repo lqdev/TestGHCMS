@@ -33,7 +33,55 @@ layout: base
   <footer class="post-footer">
     <div class="post-discussion">
       <h3>Comments</h3>
-      <p>Join the discussion on <a href="{{ discussionUrl }}">GitHub Discussions</a>.</p>
+      
+      {% set discussionNum = discussionUrl | discussionNumber %}
+      {% set discussion = discussionComments[discussionNum] %}
+      
+      {% if discussion and discussion.comments.length > 0 %}
+        <div class="discussion-comments">
+          {% for comment in discussion.comments %}
+            <div class="discussion-comment" id="comment-{{ comment.id }}">
+              <div class="comment-header">
+                <img src="{{ comment.author.avatarUrl }}" alt="{{ comment.author.login }}" class="comment-avatar" width="40" height="40">
+                <div class="comment-meta">
+                  <a href="{{ comment.author.url }}" class="comment-author">{{ comment.author.login }}</a>
+                  <time datetime="{{ comment.createdAt }}" class="comment-date">
+                    {{ comment.createdAt | readableDateISO }}
+                  </time>
+                </div>
+              </div>
+              <div class="comment-body">
+                {{ comment.bodyHTML | safe }}
+              </div>
+              
+              {% if comment.replies.length > 0 %}
+                <div class="comment-replies">
+                  {% for reply in comment.replies %}
+                    <div class="discussion-comment comment-reply" id="comment-{{ reply.id }}">
+                      <div class="comment-header">
+                        <img src="{{ reply.author.avatarUrl }}" alt="{{ reply.author.login }}" class="comment-avatar" width="32" height="32">
+                        <div class="comment-meta">
+                          <a href="{{ reply.author.url }}" class="comment-author">{{ reply.author.login }}</a>
+                          <time datetime="{{ reply.createdAt }}" class="comment-date">
+                            {{ reply.createdAt | readableDateISO }}
+                          </time>
+                        </div>
+                      </div>
+                      <div class="comment-body">
+                        {{ reply.bodyHTML | safe }}
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      
+      <p class="discussion-link">
+        <a href="{{ discussionUrl }}">Join the discussion on GitHub →</a>
+      </p>
     </div>
   </footer>
   {% endif %}

@@ -32,6 +32,10 @@ module.exports = function(eleventyConfig) {
     return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toFormat('dd LLL yyyy');
   });
 
+  eleventyConfig.addFilter('readableDateISO', (isoString) => {
+    return DateTime.fromISO(isoString, { zone: 'utc' }).toFormat('dd LLL yyyy');
+  });
+
   eleventyConfig.addFilter('htmlDateString', (dateObj) => {
     return DateTime.fromJSDate(dateObj, { zone: 'utc' }).toFormat('yyyy-LL-dd');
   });
@@ -65,6 +69,13 @@ module.exports = function(eleventyConfig) {
       .replace(/&nbsp;/g, ' ')
       .replace(/&amp;/g, '&');  // Decode &amp; last
     return text;
+  });
+
+  // Extract discussion number from GitHub Discussion URL
+  eleventyConfig.addFilter('discussionNumber', (url) => {
+    if (!url) return null;
+    const match = url.match(/\/discussions\/(\d+)/);
+    return match ? parseInt(match[1]) : null;
   });
 
   // Get all posts sorted by date
