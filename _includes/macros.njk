@@ -1,0 +1,8 @@
+{# Macro for displaying star ratings #}
+{% macro starRating(rating, maxRating=5) %}
+  <span class="rating-value" aria-label="{{ rating }} out of {{ maxRating }} stars">
+    {% for i in range(1, maxRating + 1) %}
+      {% if i <= rating %}★{% else %}☆{% endif %}
+    {% endfor %}
+  </span>
+{% endmacro %}

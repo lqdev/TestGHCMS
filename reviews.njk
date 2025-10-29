@@ -3,6 +3,7 @@ layout: base
 title: Reviews
 permalink: /reviews/
 ---
+{% import "_includes/macros.njk" as macros %}
 
 <div class="reviews-page">
   <h2>Reviews</h2>
@@ -27,10 +28,8 @@ permalink: /reviews/
 
       {% if post.data.rating %}
       <div class="post-rating">
-        <span class="p-rating" aria-label="{{ post.data.rating }} out of 5 stars">
-          {% for i in range(1, 6) %}
-            {% if i <= post.data.rating %}★{% else %}☆{% endif %}
-          {% endfor %}
+        <span class="p-rating">
+          {{ macros.starRating(post.data.rating) }}
         </span>
       </div>
       {% endif %}

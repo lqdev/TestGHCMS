@@ -1,6 +1,7 @@
 ---
 layout: base
 ---
+{% import "macros.njk" as macros %}
 
 <article class="h-entry post post-review">
   <header class="post-header">
@@ -18,11 +19,7 @@ layout: base
       {% if rating %}
       <div class="post-rating">
         <span class="p-rating">
-          <span class="rating-value" aria-label="{{ rating }} out of 5 stars">
-            {% for i in range(1, 6) %}
-              {% if i <= rating %}★{% else %}☆{% endif %}
-            {% endfor %}
-          </span>
+          {{ macros.starRating(rating) }}
         </span>
       </div>
       {% endif %}
