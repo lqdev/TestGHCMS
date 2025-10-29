@@ -55,6 +55,20 @@ module.exports = function(eleventyConfig) {
     return str.substring(0, length).trim() + '...';
   });
 
+  // Slugify filter for creating URL-safe slugs
+  eleventyConfig.addFilter('slugify', (str) => {
+    if (!str) return '';
+    return str
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '');
+  });
+
   // Strip HTML tags filter
   eleventyConfig.addFilter('striptags', (str) => {
     if (!str) return '';
@@ -140,6 +154,22 @@ module.exports = function(eleventyConfig) {
       return collectionApi.getFilteredByGlob('./_reviews/*.md').sort((a, b) => b.date - a.date);
     });
   }
+
+  // Create a collection of all unique tags
+  eleventyConfig.addCollection('tagList', function(collectionApi) {
+    const tagSet = new Set();
+    collectionApi.getAll().forEach(item => {
+      if ('tags' in item.data) {
+        const tags = item.data.tags;
+        if (typeof tags === 'string') {
+          tagSet.add(tags);
+        } else if (Array.isArray(tags)) {
+          tags.forEach(tag => tagSet.add(tag));
+        }
+      }
+    });
+    return Array.from(tagSet).sort();
+  });
 
   // Pass through static assets
   eleventyConfig.addPassthroughCopy('styles');
