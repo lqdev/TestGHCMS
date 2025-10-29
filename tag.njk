@@ -1,0 +1,57 @@
+---
+layout: base
+pagination:
+  data: collections.tagList
+  size: 1
+  alias: tag
+permalink: /tags/{{ tag | slugify }}/
+eleventyComputed:
+  title: "Tag: {{ tag }}"
+---
+
+<div class="tag-page">
+  <h2>Posts tagged "{{ tag }}"</h2>
+
+  {% set taggedPosts = [] %}
+  {% for post in collections.allPosts %}
+    {% if post.data.tags %}
+      {% if post.data.tags is string and post.data.tags == tag %}
+        {% set _ = taggedPosts.push(post) %}
+      {% elif post.data.tags is iterable and tag in post.data.tags %}
+        {% set _ = taggedPosts.push(post) %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+
+  {% if taggedPosts.length > 0 %}
+  <div class="post-list">
+    {% for post in taggedPosts %}
+    <article class="post-preview h-entry">
+      <time class="dt-published" datetime="{{ post.date | isoDate }}">
+        {{ post.date | readableDate }}
+      </time>
+
+      {% if post.data.title %}
+      <h3 class="post-title p-name">
+        <a class="u-url" href="{{ post.url | url }}">{{ post.data.title }}</a>
+      </h3>
+      {% endif %}
+
+      <div class="post-excerpt">
+        {{ post.templateContent | striptags | truncate(200) }}
+      </div>
+
+      {% if post.data.tags %}
+      <div class="post-tags">
+        {% for postTag in post.data.tags %}
+        <a href="{{ ('/tags/' + (postTag | slugify) + '/') | url }}" class="p-category tag">{{ postTag }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p>No posts found with this tag.</p>
+  {% endif %}
+</div>
