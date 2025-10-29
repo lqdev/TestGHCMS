@@ -126,7 +126,7 @@ jobs:
           " >> $GITHUB_OUTPUT
 
       - name: Create GitHub Discussion
-        if: steps.load-config.outputs.discussions_enabled == 'true' && steps.load-config.outputs.discussions_auto_create == 'true'
+        if: steps.load-config.outputs.discussions_enabled == 'true' && steps.load-config.outputs.discussions_auto_create == 'true' && github.event.action == 'opened'
         id: create-discussion
         uses: actions/github-script@v7
         with:
