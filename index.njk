@@ -19,7 +19,7 @@ title: Home
 
       {% if post.data.title %}
       <h3 class="post-title p-name">
-        <a class="u-url" href="{{ post.url }}">{{ post.data.title }}</a>
+        <a class="u-url" href="{{ post.url | url }}">{{ post.data.title }}</a>
       </h3>
       {% endif %}
 
@@ -27,7 +27,7 @@ title: Home
         {{ post.templateContent | safe | truncate(280) }}
       </div>
 
-      <a href="{{ post.url }}" class="read-more">Read more &rarr;</a>
+      <a href="{{ post.url | url }}" class="read-more">Read more &rarr;</a>
     </article>
     {% endfor %}
   </div>

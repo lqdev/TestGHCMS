@@ -19,7 +19,7 @@ permalink: /notes/
         {{ post.templateContent | safe }}
       </div>
 
-      <a class="u-url permalink" href="{{ post.url }}">#</a>
+      <a class="u-url permalink" href="{{ post.url | url }}">#</a>
     </article>
     {% endfor %}
   </div>
