@@ -148,7 +148,7 @@ jobs:
             const issue = context.payload.issue;
             const postType = '${{ steps.parse-issue.outputs.postType }}';
             const fields = JSON.parse('${{ steps.parse-issue.outputs.fields }}');
-            const postTitle = fields.title || fields.post_title || issue.title.replace(/^\[.*\] /, '');
+            const postTitle = fields.post_title || fields.title || issue.title.replace(/^\[.*\] /, '');
             
             // Get the repository's discussion categories
             const query = `
