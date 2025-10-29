@@ -154,7 +154,7 @@ jobs:
           echo "$CONTENT" >> "_${POST_TYPE}s/$FILENAME"
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "Add new ${{ steps.parse-issue.outputs.postType }}: ${{ github.event.issue.title }}"
