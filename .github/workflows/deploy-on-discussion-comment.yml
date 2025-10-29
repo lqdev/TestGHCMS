@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages on Discussion Comment
 
 on:
   discussion_comment:
-    types: [created]
+    types: [created, edited, deleted]
 
 permissions:
   contents: read
