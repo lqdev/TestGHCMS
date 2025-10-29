@@ -134,6 +134,8 @@ issue: 123  # GitHub issue number
 
 ### GitHub Actions
 
+**Note**: Due to GitHub App permission restrictions, workflow files must be added manually. See `WORKFLOWS.md` for complete workflow definitions.
+
 #### Deploy Workflow (`.github/workflows/deploy.yml`)
 - Triggers on push to `main` branch
 - Installs dependencies with `npm ci`
@@ -197,13 +199,14 @@ This project currently does not have a test suite. Validate changes by:
 
 ## Important Notes
 
-### Permissions
+### Permissions and Setup
 - GitHub App workflows have limited permissions
-- Workflows must be added manually (see WORKFLOWS.md)
+- Workflows must be added manually (see `WORKFLOWS.md` for complete workflow definitions)
+- The `.github/workflows/` directory may not exist yet - refer to `WORKFLOWS.md` for setup instructions
 - Cannot directly modify `.github/workflows/` via issues
 
 ### Dependencies
-- Keep `@11ty/eleventy` version stable (currently ^2.0.1)
+- Keep `@11ty/eleventy` at major version 2.x (check `package.json` for current version)
 - Core dependencies: `js-yaml`, `luxon`, `markdown-it`, `markdown-it-anchor`
 - No test framework dependencies currently
 
