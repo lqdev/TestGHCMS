@@ -98,9 +98,9 @@ jobs:
             
             // Use custom slug if provided, otherwise generate from title
             let slug;
-            if (fields.custom_slug) {
+            if (fields.slug) {
               // Sanitize custom slug
-              slug = fields.custom_slug
+              slug = fields.slug
                 .toLowerCase()
                 .replace(/[^a-z0-9]+/g, '-')
                 .replace(/^-|-$/g, '')
