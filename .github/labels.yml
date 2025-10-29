@@ -1,0 +1,47 @@
+# Repository Labels Configuration
+# These labels are required for the post creation workflow to function correctly
+# GitHub issue templates will automatically apply these labels when issues are created
+
+- name: post
+  description: "Indicates an issue is a post creation request"
+  color: "0E8A16"
+
+- name: article
+  description: "Long-form blog post"
+  color: "1D76DB"
+
+- name: note
+  description: "Short-form note or status update"
+  color: "5319E7"
+
+- name: response
+  description: "Response to another post or content"
+  color: "FBCA04"
+
+- name: bookmark
+  description: "Bookmarked link or resource"
+  color: "D93F0B"
+
+- name: media
+  description: "Photo or media post"
+  color: "E99695"
+
+- name: review
+  description: "Review of a product, service, or content"
+  color: "BFD4F2"
+
+- name: setup
+  description: "Initial site setup configuration"
+  color: "C2E0C6"
+
+- name: config
+  description: "Site configuration change"
+  color: "C2E0C6"
+
+- name: automated-post
+  description: "Automatically created post PR"
+  color: "EDEDED"
+
+- name: automated-setup
+  description: "Automatically created setup PR"
+  color: "EDEDED"

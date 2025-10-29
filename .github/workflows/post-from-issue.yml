@@ -6,7 +6,14 @@ on:
 
 jobs:
   create-post:
-    if: contains(github.event.issue.labels.*.name, 'post')
+    if: |
+      contains(github.event.issue.labels.*.name, 'post') ||
+      startsWith(github.event.issue.title, '[Note]') ||
+      startsWith(github.event.issue.title, '[Article]') ||
+      startsWith(github.event.issue.title, '[Response]') ||
+      startsWith(github.event.issue.title, '[Bookmark]') ||
+      startsWith(github.event.issue.title, '[Media]') ||
+      startsWith(github.event.issue.title, '[Review]')
     runs-on: ubuntu-latest
 
     permissions:
@@ -26,14 +33,38 @@ jobs:
             const issue = context.payload.issue;
             const body = issue.body;
             const labels = issue.labels.map(l => l.name);
+            const title = issue.title;
 
-            // Determine post type
+            // Determine post type from labels first, then fall back to title prefix
             let postType = 'note';
-            if (labels.includes('article')) postType = 'article';
-            else if (labels.includes('response')) postType = 'response';
-            else if (labels.includes('bookmark')) postType = 'bookmark';
-            else if (labels.includes('media')) postType = 'media';
-            else if (labels.includes('review')) postType = 'review';
+            if (labels.includes('article')) {
+              postType = 'article';
+            } else if (labels.includes('response')) {
+              postType = 'response';
+            } else if (labels.includes('bookmark')) {
+              postType = 'bookmark';
+            } else if (labels.includes('media')) {
+              postType = 'media';
+            } else if (labels.includes('review')) {
+              postType = 'review';
+            } else if (labels.includes('note')) {
+              postType = 'note';
+            } else {
+              // Fallback: detect from title prefix if labels are missing
+              if (title.startsWith('[Article]')) {
+                postType = 'article';
+              } else if (title.startsWith('[Response]')) {
+                postType = 'response';
+              } else if (title.startsWith('[Bookmark]')) {
+                postType = 'bookmark';
+              } else if (title.startsWith('[Media]')) {
+                postType = 'media';
+              } else if (title.startsWith('[Review]')) {
+                postType = 'review';
+              } else if (title.startsWith('[Note]')) {
+                postType = 'note';
+              }
+            }
 
             core.setOutput('postType', postType);
 
