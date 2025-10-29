@@ -1,85 +1,71 @@
-# Site Configuration
-# This file controls features, post types, and theme options
-
 site:
-  title: "My GitHub CMS Blog"
-  description: "A blog powered by GitHub Issues and Eleventy"
-  url: "https://yourusername.github.io/yourrepo"
+  title: My Awesome Website
+  description: A prototype showing how to use GitHub as a CMS
+  url: https://lqdev.github.io/TestGHCMS
   author:
-    name: "Your Name"
-    email: "your.email@example.com"
-    url: "https://yourusername.github.io/yourrepo"
-  language: "en"
-
-# Post Types Configuration
-# Enable or disable specific post types
+    name: John Doe
+    email: john@doe.com
+    url: https://lqdev.github.io/TestGHCMS
+  language: en
 postTypes:
   article:
     enabled: true
-    permalink: "/articles/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}/"
-    layout: "article"
+    permalink: '/articles/{{ page.date | date: ''%Y/%m/%d'' }}/{{ page.fileSlug }}/'
+    layout: article
   note:
     enabled: true
-    permalink: "/notes/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}/"
-    layout: "note"
+    permalink: '/notes/{{ page.date | date: ''%Y/%m/%d'' }}/{{ page.fileSlug }}/'
+    layout: note
   response:
     enabled: false
-    permalink: "/responses/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}/"
-    layout: "response"
+    permalink: '/responses/{{ page.date | date: ''%Y/%m/%d'' }}/{{ page.fileSlug }}/'
+    layout: response
   bookmark:
     enabled: false
-    permalink: "/bookmarks/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}/"
-    layout: "bookmark"
+    permalink: '/bookmarks/{{ page.date | date: ''%Y/%m/%d'' }}/{{ page.fileSlug }}/'
+    layout: bookmark
   media:
     enabled: false
-    permalink: "/media/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}/"
-    layout: "media"
+    permalink: '/media/{{ page.date | date: ''%Y/%m/%d'' }}/{{ page.fileSlug }}/'
+    layout: media
   review:
     enabled: false
-    permalink: "/reviews/{{ page.date | date: '%Y/%m/%d' }}/{{ page.fileSlug }}/"
-    layout: "review"
-
-# Features Configuration
+    permalink: '/reviews/{{ page.date | date: ''%Y/%m/%d'' }}/{{ page.fileSlug }}/'
+    layout: review
 features:
   discussions:
     enabled: true
     autoCreate: true
   webmentions:
-    enabled: true
+    enabled: false
     send: true
     receive: true
-    endpoint: "https://webmention.io/api/mentions.jf2"
+    endpoint: https://webmention.io/api/mentions.jf2
   microformats:
     enabled: true
   rss:
     enabled: true
   sitemap:
     enabled: true
-
-# Theme Configuration
 theme:
-  style: "minimal"
-  colorScheme: "light"
-  accentColor: "#0969da"
+  style: minimal
+  colorScheme: light
+  accentColor: '#0969da'
   font:
-    body: "system-ui, -apple-system, sans-serif"
-    heading: "system-ui, -apple-system, sans-serif"
-    mono: "ui-monospace, monospace"
-
-# Navigation
+    body: system-ui, -apple-system, sans-serif
+    heading: system-ui, -apple-system, sans-serif
+    mono: ui-monospace, monospace
 navigation:
-  - title: "Home"
-    url: "/"
-  - title: "Articles"
-    url: "/articles/"
-  - title: "Notes"
-    url: "/notes/"
-  - title: "About"
-    url: "/about/"
-
-# Social Links
+  - title: Home
+    url: /
+  - title: Articles
+    url: /articles/
+  - title: Notes
+    url: /notes/
+  - title: About
+    url: /about/
 social:
-  github: ""
-  mastodon: ""
-  bluesky: ""
-  twitter: ""
+  github: ''
+  mastodon: ''
+  bluesky: ''
+  twitter: ''
