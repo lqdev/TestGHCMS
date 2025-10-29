@@ -1,0 +1,66 @@
+name: "Post Media"
+description: "Share a photo or media post"
+title: "[Media] "
+labels: ["media", "post"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Post Media
+        Share photos, images, or other media.
+
+  - type: input
+    id: post_title
+    attributes:
+      label: "Post Title"
+      description: "Optional title for this media post"
+      placeholder: "My Photo"
+
+  - type: input
+    id: slug
+    attributes:
+      label: "Custom Slug"
+      description: "Optional URL-friendly slug for this post (if empty, will be generated from title)"
+      placeholder: "my-custom-slug"
+
+  - type: input
+    id: media_url
+    attributes:
+      label: "Media URL"
+      description: "URL of the image or media file"
+      placeholder: "https://example.com/image.jpg"
+    validations:
+      required: true
+
+  - type: input
+    id: media_alt
+    attributes:
+      label: "Alt Text"
+      description: "Descriptive text for accessibility"
+      placeholder: "A beautiful sunset over the ocean"
+
+  - type: textarea
+    id: content
+    attributes:
+      label: "Caption"
+      description: "Optional caption or description (Markdown supported)"
+      placeholder: "Add a caption for your media..."
+
+  - type: input
+    id: tags
+    attributes:
+      label: "Tags"
+      description: "Comma-separated tags for this media post"
+      placeholder: "photography, nature"
+
+  - type: dropdown
+    id: published
+    attributes:
+      label: "Publish Immediately"
+      description: "Should this media post be published right away?"
+      options:
+        - "yes"
+        - "no"
+      default: 0
+    validations:
+      required: true

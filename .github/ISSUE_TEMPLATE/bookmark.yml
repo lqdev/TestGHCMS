@@ -1,0 +1,61 @@
+name: "Save Bookmark"
+description: "Bookmark and share an interesting link"
+title: "[Bookmark] "
+labels: ["bookmark", "post"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Save a Bookmark
+        Share interesting links with optional commentary.
+
+  - type: input
+    id: post_title
+    attributes:
+      label: "Post Title"
+      description: "Title for this bookmark"
+      placeholder: "Interesting Article About..."
+    validations:
+      required: true
+
+  - type: input
+    id: slug
+    attributes:
+      label: "Custom Slug"
+      description: "Optional URL-friendly slug for this post (if empty, will be generated from title)"
+      placeholder: "my-custom-slug"
+
+  - type: input
+    id: bookmark_url
+    attributes:
+      label: "URL"
+      description: "The URL you're bookmarking"
+      placeholder: "https://example.com/interesting-article"
+    validations:
+      required: true
+
+  - type: textarea
+    id: content
+    attributes:
+      label: "Commentary"
+      description: "Optional notes or commentary about this link (Markdown supported)"
+      placeholder: "Why this link is interesting..."
+
+  - type: input
+    id: tags
+    attributes:
+      label: "Tags"
+      description: "Comma-separated tags for this bookmark"
+      placeholder: "reading, resources, web"
+
+  - type: dropdown
+    id: published
+    attributes:
+      label: "Publish Immediately"
+      description: "Should this bookmark be published right away?"
+      options:
+        - "yes"
+        - "no"
+      default: 0
+    validations:
+      required: true

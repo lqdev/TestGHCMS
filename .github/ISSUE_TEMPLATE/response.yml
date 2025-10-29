@@ -1,0 +1,63 @@
+name: "Post Response"
+description: "Create a response to another post or article"
+title: "[Response] "
+labels: ["response", "post"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Post a Response
+        Respond to content from around the web.
+
+  - type: input
+    id: post_title
+    attributes:
+      label: "Post Title"
+      description: "Title for your response"
+      placeholder: "My Response to..."
+    validations:
+      required: true
+
+  - type: input
+    id: slug
+    attributes:
+      label: "Custom Slug"
+      description: "Optional URL-friendly slug for this post (if empty, will be generated from title)"
+      placeholder: "my-custom-slug"
+
+  - type: input
+    id: in_reply_to
+    attributes:
+      label: "In Reply To"
+      description: "URL of the post you're responding to"
+      placeholder: "https://example.com/original-post"
+    validations:
+      required: true
+
+  - type: textarea
+    id: content
+    attributes:
+      label: "Content"
+      description: "Your response (Markdown supported)"
+      placeholder: "Write your response here..."
+    validations:
+      required: true
+
+  - type: input
+    id: tags
+    attributes:
+      label: "Tags"
+      description: "Comma-separated tags for your response"
+      placeholder: "discussion, web"
+
+  - type: dropdown
+    id: published
+    attributes:
+      label: "Publish Immediately"
+      description: "Should this response be published right away?"
+      options:
+        - "yes"
+        - "no"
+      default: 0
+    validations:
+      required: true

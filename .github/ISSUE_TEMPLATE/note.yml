@@ -26,6 +26,13 @@ body:
       placeholder: "Quick Thought"
 
   - type: input
+    id: slug
+    attributes:
+      label: "Custom Slug"
+      description: "Optional URL-friendly slug for this post (if empty, will be generated from title)"
+      placeholder: "my-custom-slug"
+
+  - type: input
     id: tags
     attributes:
       label: "Tags"
