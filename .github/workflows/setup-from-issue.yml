@@ -36,6 +36,12 @@ jobs:
             const issue = context.payload.issue;
             const body = issue.body;
 
+            // Guard clause for empty issue body
+            if (!body || body.trim().length === 0) {
+              core.setFailed('Issue body is empty. Cannot parse configuration.');
+              return;
+            }
+
             // Parse form fields - split by ### and process each section
             const fields = {};
             const sections = body.split(/\n### /).filter(s => s.trim());
@@ -65,10 +71,26 @@ jobs:
 
             console.log('Parsed fields:', JSON.stringify(fields, null, 2));
 
-            // Load current config
+            // Load current config using safe load
             const configPath = './site.config.yml';
             const configContent = fs.readFileSync(configPath, 'utf8');
-            const config = yaml.load(configContent);
+            const config = yaml.load(configContent, { schema: yaml.DEFAULT_SAFE_SCHEMA });
+
+            // Ensure required config structure exists
+            if (!config.site) config.site = {};
+            if (!config.site.author) config.site.author = {};
+            if (!config.features) config.features = {};
+            if (!config.features.discussions) config.features.discussions = {};
+            if (!config.features.webmentions) config.features.webmentions = {};
+            if (!config.features.rss) config.features.rss = {};
+            if (!config.postTypes) config.postTypes = {};
+            if (!config.postTypes.article) config.postTypes.article = {};
+            if (!config.postTypes.note) config.postTypes.note = {};
+            if (!config.postTypes.response) config.postTypes.response = {};
+            if (!config.postTypes.bookmark) config.postTypes.bookmark = {};
+            if (!config.postTypes.media) config.postTypes.media = {};
+            if (!config.postTypes.review) config.postTypes.review = {};
+            if (!config.social) config.social = {};
 
             // Update site information
             if (fields.site_title) {
