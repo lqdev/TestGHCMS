@@ -23,6 +23,18 @@ title: Home
       </h3>
       {% endif %}
 
+      {% if post.data.inReplyTo %}
+      <div class="post-context">
+        ↪ In reply to: <a href="{{ post.data.inReplyTo }}" class="u-in-reply-to" rel="external">{{ post.data.inReplyTo }}</a>
+      </div>
+      {% endif %}
+
+      {% if post.data.bookmarkOf %}
+      <div class="post-context">
+        🔖 Bookmark: <a href="{{ post.data.bookmarkOf }}" class="u-bookmark-of" rel="external">{{ post.data.bookmarkOf }}</a>
+      </div>
+      {% endif %}
+
       <div class="post-excerpt e-content">
         {% if post.data.description %}
           {{ post.data.description }}
