@@ -56,14 +56,14 @@ module.exports = function(eleventyConfig) {
     if (!str) return '';
     // Remove HTML tags
     let text = str.replace(/<[^>]*>/g, '');
-    // Decode common HTML entities
+    // Decode common HTML entities (decode &amp; last to avoid double-unescaping)
     text = text
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
-      .replace(/&amp;/g, '&')
       .replace(/&quot;/g, '"')
       .replace(/&#39;/g, "'")
-      .replace(/&nbsp;/g, ' ');
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&');  // Decode &amp; last
     return text;
   });
 
