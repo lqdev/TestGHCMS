@@ -54,7 +54,17 @@ module.exports = function(eleventyConfig) {
   // Strip HTML tags filter
   eleventyConfig.addFilter('striptags', (str) => {
     if (!str) return '';
-    return str.replace(/<[^>]*>/g, '');
+    // Remove HTML tags
+    let text = str.replace(/<[^>]*>/g, '');
+    // Decode common HTML entities
+    text = text
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/&nbsp;/g, ' ');
+    return text;
   });
 
   // Get all posts sorted by date
