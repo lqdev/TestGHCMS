@@ -24,7 +24,11 @@ title: Home
       {% endif %}
 
       <div class="post-excerpt e-content">
-        {{ post.templateContent | safe | truncate(280) }}
+        {% if post.data.description %}
+          {{ post.data.description }}
+        {% else %}
+          {{ post.templateContent | striptags | truncate(280) }}
+        {% endif %}
       </div>
 
       <a href="{{ post.url | url }}" class="read-more">Read more &rarr;</a>
