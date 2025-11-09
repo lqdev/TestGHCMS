@@ -11,9 +11,20 @@ layout: base
       <time class="dt-published" datetime="{{ page.date | isoDate }}">
         {{ page.date | readableDate }}
       </time>
-      {% if reviewItem %}
+      {% if reviewItem or itemUrl %}
       <div class="post-review-item">
-        Reviewing: <span class="p-item">{{ reviewItem }}</span>
+        Reviewing: 
+        {% if itemUrl %}
+          <span class="p-item h-product">
+            {% if reviewItem %}
+              <a href="{{ itemUrl }}" class="p-name u-url" target="_blank" rel="noopener">{{ reviewItem }}</a>
+            {% else %}
+              <a href="{{ itemUrl }}" class="u-url" target="_blank" rel="noopener">{{ itemUrl }}</a>
+            {% endif %}
+          </span>
+        {% elif reviewItem %}
+          <span class="p-item">{{ reviewItem }}</span>
+        {% endif %}
       </div>
       {% endif %}
       {% if rating %}

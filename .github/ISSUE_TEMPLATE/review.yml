@@ -29,8 +29,15 @@ body:
     id: review_item
     attributes:
       label: "Item Being Reviewed"
-      description: "What are you reviewing?"
+      description: "What are you reviewing? (Optional - post title is shown more prominently)"
       placeholder: "The Great Gatsby by F. Scott Fitzgerald"
+
+  - type: input
+    id: item_url
+    attributes:
+      label: "Item URL"
+      description: "Link to the product, book, business, etc. for more details"
+      placeholder: "https://example.com/product"
     validations:
       required: true
 
@@ -40,11 +47,26 @@ body:
       label: "Rating"
       description: "Your rating (out of 5)"
       options:
-        - "5"
-        - "4"
-        - "3"
-        - "2"
-        - "1"
+        - "5.0"
+        - "4.75"
+        - "4.5"
+        - "4.25"
+        - "4.0"
+        - "3.75"
+        - "3.5"
+        - "3.25"
+        - "3.0"
+        - "2.75"
+        - "2.5"
+        - "2.25"
+        - "2.0"
+        - "1.75"
+        - "1.5"
+        - "1.25"
+        - "1.0"
+        - "0.75"
+        - "0.5"
+        - "0.25"
       default: 0
     validations:
       required: true
@@ -53,10 +75,8 @@ body:
     id: content
     attributes:
       label: "Review"
-      description: "Your review content (Markdown supported)"
+      description: "Your review content (Markdown supported, optional)"
       placeholder: "Write your review here..."
-    validations:
-      required: true
 
   - type: input
     id: tags

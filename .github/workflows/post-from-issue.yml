@@ -252,6 +252,9 @@ jobs:
           CANONICAL_URL=$(echo "$FIELDS" | jq -r '.canonical_url // ""')
           IN_REPLY_TO=$(echo "$FIELDS" | jq -r '.in_reply_to // ""')
           BOOKMARK_URL=$(echo "$FIELDS" | jq -r '.url // .bookmark_url // ""')
+          REVIEW_ITEM=$(echo "$FIELDS" | jq -r '.item_being_reviewed // .review_item // ""')
+          ITEM_URL=$(echo "$FIELDS" | jq -r '.item_url // ""')
+          RATING=$(echo "$FIELDS" | jq -r '.rating // ""')
 
           # If no title in fields, use issue title (remove [Type] prefix)
           if [ -z "$TITLE" ]; then
@@ -275,6 +278,9 @@ jobs:
           [ -n "$CANONICAL_URL" ] && echo "canonical_url: \"$CANONICAL_URL\"" >> "_${POST_TYPE}s/$FILENAME"
           [ -n "$IN_REPLY_TO" ] && echo "inReplyTo: \"$IN_REPLY_TO\"" >> "_${POST_TYPE}s/$FILENAME"
           [ -n "$BOOKMARK_URL" ] && echo "bookmarkOf: \"$BOOKMARK_URL\"" >> "_${POST_TYPE}s/$FILENAME"
+          [ -n "$REVIEW_ITEM" ] && echo "reviewItem: \"$REVIEW_ITEM\"" >> "_${POST_TYPE}s/$FILENAME"
+          [ -n "$ITEM_URL" ] && echo "itemUrl: \"$ITEM_URL\"" >> "_${POST_TYPE}s/$FILENAME"
+          [ -n "$RATING" ] && echo "rating: $RATING" >> "_${POST_TYPE}s/$FILENAME"
 
           # Add tags
           if [ -n "$TAGS" ]; then

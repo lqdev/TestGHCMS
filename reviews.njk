@@ -20,9 +20,19 @@ permalink: /reviews/
         <a class="u-url" href="{{ post.url | url }}">{{ post.data.title }}</a>
       </h3>
 
-      {% if post.data.reviewItem %}
+      {% if post.data.reviewItem or post.data.itemUrl %}
       <p class="post-review-item">
-        <strong>{{ post.data.reviewItem }}</strong>
+        {% if post.data.itemUrl %}
+          <strong>
+            {% if post.data.reviewItem %}
+              <a href="{{ post.data.itemUrl }}" target="_blank" rel="noopener">{{ post.data.reviewItem }}</a>
+            {% else %}
+              <a href="{{ post.data.itemUrl }}" target="_blank" rel="noopener">{{ post.data.itemUrl }}</a>
+            {% endif %}
+          </strong>
+        {% elif post.data.reviewItem %}
+          <strong>{{ post.data.reviewItem }}</strong>
+        {% endif %}
       </p>
       {% endif %}
 
