@@ -76,7 +76,7 @@ body:
   - type: textarea
     id: content
     attributes:
-      label: "Review"
+      label: "Content"
       description: "Your review content (Markdown supported, optional)"
       placeholder: "Write your review here..."
 
