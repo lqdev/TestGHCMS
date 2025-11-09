@@ -150,24 +150,47 @@ jobs:
             const fields = JSON.parse('${{ steps.parse-issue.outputs.fields }}');
             const postTitle = fields.post_title || fields.title || issue.title.replace(/^\[.*\] /, '');
             
-            // Get the repository's discussion categories
-            const query = `
+            const discussionTitle = `💬 ${postTitle}`;
+            
+            // Get repository ID first (needed for both search and creation)
+            const repoQuery = `
               query($owner: String!, $repo: String!) {
                 repository(owner: $owner, name: $repo) {
+                  id
                   discussionCategories(first: 10) {
                     nodes {
                       id
                       name
                     }
                   }
+                  discussions(first: 100, orderBy: {field: CREATED_AT, direction: DESC}) {
+                    nodes {
+                      id
+                      title
+                      body
+                      url
+                    }
+                  }
                 }
               }
             `;
             
-            const result = await github.graphql(query, {
+            const result = await github.graphql(repoQuery, {
               owner: context.repo.owner,
               repo: context.repo.repo
             });
+            
+            // Check if a discussion already exists for this issue
+            const existingDiscussion = result.repository.discussions.nodes.find(discussion => 
+              discussion.title === discussionTitle || 
+              discussion.body.includes(`Created from issue #${issue.number}`)
+            );
+            
+            if (existingDiscussion) {
+              console.log(`Discussion already exists for issue #${issue.number}: ${existingDiscussion.url}`);
+              core.setOutput('discussion_url', existingDiscussion.url);
+              return;
+            }
             
             // Find the "Comments" category, fallback to "General", or use the first available
             const categories = result.repository.discussionCategories.nodes;
@@ -197,26 +220,11 @@ jobs:
               }
             `;
             
-            // Get repository ID
-            const repoQuery = `
-              query($owner: String!, $repo: String!) {
-                repository(owner: $owner, name: $repo) {
-                  id
-                }
-              }
-            `;
-            
-            const repoResult = await github.graphql(repoQuery, {
-              owner: context.repo.owner,
-              repo: context.repo.repo
-            });
-            
-            const discussionTitle = `💬 ${postTitle}`;
             const discussionBody = `This discussion is for comments on the ${postType}: **${postTitle}**\n\nCreated from issue #${issue.number}`;
             
             try {
               const createResult = await github.graphql(mutation, {
-                repositoryId: repoResult.repository.id,
+                repositoryId: result.repository.id,
                 categoryId: category.id,
                 title: discussionTitle,
                 body: discussionBody
