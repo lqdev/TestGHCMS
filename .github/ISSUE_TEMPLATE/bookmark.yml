@@ -37,7 +37,7 @@ body:
   - type: textarea
     id: content
     attributes:
-      label: "Commentary"
+      label: "Content"
       description: "Optional notes or commentary about this link (Markdown supported)"
       placeholder: "Why this link is interesting..."
 
