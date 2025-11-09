@@ -1,8 +1,9 @@
-{# Macro for displaying star ratings #}
+{# Macro for displaying star ratings with support for decimal values #}
 {% macro starRating(rating, maxRating=5) %}
+  {% set numRating = rating | float %}
   <span class="rating-value" aria-label="{{ rating }} out of {{ maxRating }} stars">
     {% for i in range(1, maxRating + 1) %}
-      {% if i <= rating %}★{% else %}☆{% endif %}
+      {% if i <= numRating %}★{% elif i - 0.5 <= numRating %}⯨{% else %}☆{% endif %}
     {% endfor %}
   </span>
 {% endmacro %}
