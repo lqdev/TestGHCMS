@@ -233,6 +233,61 @@ jobs:
 
 ---
 
+## File: `.github/workflows/auto-delete-branch.yml`
+
+```yaml
+name: Auto-delete Merged PR Branches
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  delete-branch:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Delete merged branch
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branchName = context.payload.pull_request.head.ref;
+            const isFromFork = context.payload.pull_request.head.repo.full_name !== context.payload.pull_request.base.repo.full_name;
+            
+            // Don't try to delete branches from forks
+            if (isFromFork) {
+              console.log(`Branch ${branchName} is from a fork. Skipping deletion.`);
+              return;
+            }
+            
+            // Don't delete protected branches like main, master, develop
+            const protectedBranches = ['main', 'master', 'develop', 'production'];
+            if (protectedBranches.includes(branchName)) {
+              console.log(`Branch ${branchName} is protected. Skipping deletion.`);
+              return;
+            }
+            
+            try {
+              await github.rest.git.deleteRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `heads/${branchName}`
+              });
+              console.log(`✅ Successfully deleted branch: ${branchName}`);
+            } catch (error) {
+              // Branch might already be deleted or not exist
+              console.log(`⚠️ Could not delete branch ${branchName}: ${error.message}`);
+            }
+```
+
+This workflow automatically deletes branches when their associated pull requests are merged. It protects important branches (main, master, develop, production) and skips deletion for branches from forks.
+
+---
+
 ## After Adding Workflows
 
 1. **Enable GitHub Pages**:
@@ -245,3 +300,4 @@ jobs:
 3. **Test post creation**:
    - Create a new issue using the "Publish Article" or "Post Note" template
    - The workflow should automatically create a PR with your post
+   - When you merge the PR, the branch will be automatically deleted
