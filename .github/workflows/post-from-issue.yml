@@ -245,7 +245,7 @@ jobs:
         run: |
           # Parse fields
           TITLE=$(echo "$FIELDS" | jq -r '.post_title // .title // ""')
-          CONTENT=$(echo "$FIELDS" | jq -r '.content // ""')
+          CONTENT=$(echo "$FIELDS" | jq -r '.content // .commentary // ""')
           DESCRIPTION=$(echo "$FIELDS" | jq -r '.description // ""')
           TAGS=$(echo "$FIELDS" | jq -r '.tags // ""')
           AUTHOR=$(echo "$FIELDS" | jq -r '.author // ""')
