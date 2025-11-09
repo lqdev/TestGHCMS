@@ -10,6 +10,7 @@ tags:
   - blogs
   - newsletters
 issue: 48
+discussionUrl: "https://github.com/lqdev/TestGHCMS/discussions/50"
 ---
 
 This is a great list of resources. Thanks for sharing!
