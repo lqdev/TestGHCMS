@@ -272,11 +272,19 @@ jobs:
             TITLE=$(echo "$ISSUE_TITLE" | sed 's/^\[.*\] //')
           fi
 
+          # Determine the correct directory name for the post type
+          # Most post types use plural form, but media is singular
+          if [ "$POST_TYPE" = "media" ]; then
+            POST_DIR="_media"
+          else
+            POST_DIR="_${POST_TYPE}s"
+          fi
+
           # Create directory if it doesn't exist
-          mkdir -p "_${POST_TYPE}s"
+          mkdir -p "$POST_DIR"
 
           # Create frontmatter
-          cat > "_${POST_TYPE}s/$FILENAME" <<EOF
+          cat > "$POST_DIR/$FILENAME" <<EOF
           ---
           layout: $POST_TYPE
           title: "$TITLE"
@@ -284,37 +292,37 @@ jobs:
           EOF
 
           # Add optional fields
-          [ -n "$DESCRIPTION" ] && echo "description: \"$DESCRIPTION\"" >> "_${POST_TYPE}s/$FILENAME"
-          [ -n "$AUTHOR" ] && echo "author: \"$AUTHOR\"" >> "_${POST_TYPE}s/$FILENAME"
-          [ -n "$CANONICAL_URL" ] && echo "canonical_url: \"$CANONICAL_URL\"" >> "_${POST_TYPE}s/$FILENAME"
-          [ -n "$IN_REPLY_TO" ] && echo "inReplyTo: \"$IN_REPLY_TO\"" >> "_${POST_TYPE}s/$FILENAME"
-          [ -n "$BOOKMARK_URL" ] && echo "bookmarkOf: \"$BOOKMARK_URL\"" >> "_${POST_TYPE}s/$FILENAME"
-          [ -n "$REVIEW_ITEM" ] && echo "reviewItem: \"$REVIEW_ITEM\"" >> "_${POST_TYPE}s/$FILENAME"
-          [ -n "$ITEM_URL" ] && echo "itemUrl: \"$ITEM_URL\"" >> "_${POST_TYPE}s/$FILENAME"
-          [ -n "$RATING" ] && echo "rating: $RATING" >> "_${POST_TYPE}s/$FILENAME"
+          [ -n "$DESCRIPTION" ] && echo "description: \"$DESCRIPTION\"" >> "$POST_DIR/$FILENAME"
+          [ -n "$AUTHOR" ] && echo "author: \"$AUTHOR\"" >> "$POST_DIR/$FILENAME"
+          [ -n "$CANONICAL_URL" ] && echo "canonical_url: \"$CANONICAL_URL\"" >> "$POST_DIR/$FILENAME"
+          [ -n "$IN_REPLY_TO" ] && echo "inReplyTo: \"$IN_REPLY_TO\"" >> "$POST_DIR/$FILENAME"
+          [ -n "$BOOKMARK_URL" ] && echo "bookmarkOf: \"$BOOKMARK_URL\"" >> "$POST_DIR/$FILENAME"
+          [ -n "$REVIEW_ITEM" ] && echo "reviewItem: \"$REVIEW_ITEM\"" >> "$POST_DIR/$FILENAME"
+          [ -n "$ITEM_URL" ] && echo "itemUrl: \"$ITEM_URL\"" >> "$POST_DIR/$FILENAME"
+          [ -n "$RATING" ] && echo "rating: $RATING" >> "$POST_DIR/$FILENAME"
 
           # Add tags
           if [ -n "$TAGS" ]; then
-            echo "tags:" >> "_${POST_TYPE}s/$FILENAME"
+            echo "tags:" >> "$POST_DIR/$FILENAME"
             IFS=',' read -ra TAG_ARRAY <<< "$TAGS"
             for tag in "${TAG_ARRAY[@]}"; do
               tag=$(echo "$tag" | xargs)
-              echo "  - $tag" >> "_${POST_TYPE}s/$FILENAME"
+              echo "  - $tag" >> "$POST_DIR/$FILENAME"
             done
           fi
 
           # Add issue reference
-          echo "issue: $ISSUE_NUMBER" >> "_${POST_TYPE}s/$FILENAME"
+          echo "issue: $ISSUE_NUMBER" >> "$POST_DIR/$FILENAME"
 
           # Add discussion URL if available
-          [ -n "$DISCUSSION_URL" ] && echo "discussionUrl: \"$DISCUSSION_URL\"" >> "_${POST_TYPE}s/$FILENAME"
+          [ -n "$DISCUSSION_URL" ] && echo "discussionUrl: \"$DISCUSSION_URL\"" >> "$POST_DIR/$FILENAME"
 
           # Close frontmatter
-          echo "---" >> "_${POST_TYPE}s/$FILENAME"
-          echo "" >> "_${POST_TYPE}s/$FILENAME"
+          echo "---" >> "$POST_DIR/$FILENAME"
+          echo "" >> "$POST_DIR/$FILENAME"
 
           # Add content
-          echo "$CONTENT" >> "_${POST_TYPE}s/$FILENAME"
+          echo "$CONTENT" >> "$POST_DIR/$FILENAME"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
