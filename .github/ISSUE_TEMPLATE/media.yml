@@ -23,28 +23,12 @@ body:
       description: "Optional URL-friendly slug for this post (if empty, will be generated from title or issue title)"
       placeholder: "my-custom-slug"
 
-  - type: input
-    id: media_url
-    attributes:
-      label: "Media URL"
-      description: "URL of the image or media file"
-      placeholder: "https://example.com/image.jpg"
-    validations:
-      required: true
-
-  - type: input
-    id: media_alt
-    attributes:
-      label: "Alt Text"
-      description: "Descriptive text for accessibility"
-      placeholder: "A beautiful sunset over the ocean"
-
   - type: textarea
     id: content
     attributes:
-      label: "Caption"
-      description: "Optional caption or description (Markdown supported)"
-      placeholder: "Add a caption for your media..."
+      label: "Content"
+      description: "Upload your media files here and add any captions, alt-text, or descriptions (Markdown supported)"
+      placeholder: "Drag and drop or paste your images/media here. You can add captions and alt-text inline using markdown: ![alt text](uploaded-url)"
 
   - type: input
     id: tags
