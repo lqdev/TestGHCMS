@@ -143,11 +143,14 @@ jobs:
         if: steps.load-config.outputs.discussions_enabled == 'true' && steps.load-config.outputs.discussions_auto_create == 'true' && (github.event.action == 'opened' || github.event.action == 'labeled')
         id: create-discussion
         uses: actions/github-script@v7
+        env:
+          POST_TYPE: ${{ steps.parse-issue.outputs.postType }}
+          FIELDS_JSON: ${{ steps.parse-issue.outputs.fields }}
         with:
           script: |
             const issue = context.payload.issue;
-            const postType = '${{ steps.parse-issue.outputs.postType }}';
-            const fields = JSON.parse('${{ steps.parse-issue.outputs.fields }}');
+            const postType = process.env.POST_TYPE;
+            const fields = JSON.parse(process.env.FIELDS_JSON);
             const postTitle = fields.post_title || fields.title || issue.title.replace(/^\[.*\] /, '');
             
             const discussionTitle = `💬 ${postTitle}`;
